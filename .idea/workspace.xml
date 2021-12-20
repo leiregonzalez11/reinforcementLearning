@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46e5c8ef-3372-4e14-a9ef-f0f0d70ee103" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qlearningAgents.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearningAgents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/valueIterationAgents.py" beforeDir="false" afterPath="$PROJECT_DIR$/valueIterationAgents.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +47,7 @@
       <option name="presentableId" value="Default" />
       <updated>1639590946321</updated>
       <workItem from="1639590975568" duration="2393000" />
-      <workItem from="1640012502449" duration="2388000" />
+      <workItem from="1640012502449" duration="4546000" />
     </task>
     <servers />
   </component>
