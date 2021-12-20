@@ -44,6 +44,8 @@ class QLearningAgent(ReinforcementAgent):
 
         "*** YOUR CODE HERE ***"
 
+        self.q_values = util.Counter()
+
     def getQValue(self, state, action):
         """
           Returns Q(state,action)
@@ -51,7 +53,10 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        return self.q_values[(state,action)]
+
+        #util.raiseNotDefined()
 
 
     def computeValueFromQValues(self, state):
@@ -62,7 +67,19 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        max = float("-inf")
+
+        if len(self.getLegalActions(state)) == 0:
+            return 0.0
+
+        for action in self.getLegalActions(state):
+            if self.getQValue(state,action) > max:
+                max = self.getQValue(state, action)
+
+        return max
+
+        #util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):
         """
@@ -71,7 +88,23 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        maxValue = float("-inf")
+        bestActions = [None]
+
+        for action in self.getLegalActions(state):
+
+            if self.getQValue(state, action) > maxValue:
+
+                maxValue = self.getQValue(state, action)
+                bestActions = [action]
+
+            elif self.getQValue(state, action) == maxValue:
+                bestActions.append(action)
+
+        return random.choice(bestActions)
+
+        "util.raiseNotDefined()"
 
     def getAction(self, state):
         """
@@ -88,9 +121,16 @@ class QLearningAgent(ReinforcementAgent):
         legalActions = self.getLegalActions(state)
         action = None
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
 
-        return action
+        if util.flipCoin(self.epsilon):
+            return random.choice(legalActions)
+
+        else:
+            return self.computeActionFromQValues(state)
+
+        "util.raiseNotDefined()"
+
+        #return action
 
     def update(self, state, action, nextState, reward):
         """
@@ -102,7 +142,11 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        self.q_values[(state, action)] = (1 - self.alpha) * self.getQValue(state, action) + self.alpha * \
+                                         (reward + self.discount * self.getValue(nextState))
+
+        #util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
@@ -165,14 +209,28 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        cont = 0
+        listFeatures = self.featExtractor.getFeatures(state, action)
+        for feature, value in listFeatures.items():
+            cont = cont + self.weights[feature] * value
+        return cont
+
+        "util.raiseNotDefined()"
 
     def update(self, state, action, nextState, reward):
         """
            Should update your weights based on transition
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        listFeatures = self.featExtractor.getFeatures(state, action)
+        formule = self.discount * self.getValue(nextState) + reward - self.getQValue(state, action)
+
+        for feature, value in listFeatures.items():
+            self.weights[feature] = self.weights[feature] + self.alpha * formule * value
+
+        #util.raiseNotDefined()
 
     def final(self, state):
         "Called at the end of each game."
@@ -184,3 +242,4 @@ class ApproximateQAgent(PacmanQAgent):
             # you might want to print your weights here for debugging
             "*** YOUR CODE HERE ***"
             pass
+
